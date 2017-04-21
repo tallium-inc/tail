@@ -74,10 +74,10 @@ class Message extends BaseOptions {
 
             $connection->close();
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             $connection->close();
-            throw new Exception($e);
+            throw new \Exception($e);
         }
     }
 
