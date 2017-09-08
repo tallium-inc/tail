@@ -12,6 +12,11 @@ class Registry
         self::$storedValues[$key] = $value;
     }
 
+    public static function all()
+    {
+        return self::$storedValues;
+    }
+
     public static function get(string $key, $default = null)
     {
         if (!isset(self::$storedValues[$key]) && !is_null($default)) {
