@@ -1,6 +1,7 @@
 <?php namespace Mookofe\Tail;
 
 use Config;
+use Mookofe\Tail\Registry;
 use Mookofe\Tail\Connection;
 use Mookofe\Tail\BaseOptions;
 use Illuminate\Config\Repository;
@@ -66,13 +67,19 @@ class Message extends BaseOptions {
     {
         try
         {
-            $connection = new Connection($this->buildConnectionOptions());
-            $connection->open();
+            $options = $this->buildConnectionOptions();
+            $key = md5(json_encode($options));
+            $connection = Registry::get($key, function() use($options) {
+                $connection = new Connection($options);
+                $connection->open();
+
+                return $connection;
+            });
 
             $msg = new AMQPMessage($this->message, array('content_type' => $this->content_type, 'delivery_mode' => 2));
             $connection->channel->basic_publish($msg, $this->exchange, $this->queue_name);
 
-            $connection->close();
+            //$connection->close();
         }
         catch (\Exception $e)
         {
