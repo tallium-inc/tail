@@ -26,5 +26,10 @@ class Registry
 
         return isset(self::$storedValues[$key]) ? self::$storedValues[$key] : null;
     }
+    
+    public static function remove(string $key)
+    {
+        unset(self::$storedValues[$key]);
+    }
 
 }
