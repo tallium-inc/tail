@@ -31,5 +31,10 @@ class Registry
     {
         unset(self::$storedValues[$key]);
     }
-
+    
+    public static function removeAll()
+    {
+        self::$storedValues = [];
+    }
+    
 }
